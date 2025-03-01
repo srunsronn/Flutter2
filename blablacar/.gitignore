@@ -1,0 +1,20 @@
+# Ignore everything
+*
+
+# Allow only specific directories and files
+!lib/
+!lib/**
+!assets/
+!assets/**
+!pubspec.yaml
+
+# Ignore build and dependency-related directories/files
+**/build/
+**/.dart_tool/
+**/.idea/
+**/.vscode/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/.packages
+**/pubspec.lock
+**/flutter_*.iml

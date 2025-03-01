@@ -33,6 +33,8 @@ class Location {
   String toString() {
     return name;
   }
+
+  static Location? copy(Location location) {}
 }
 
 ///
