@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:week_3_blabla_project/screens/ride_pref/ride_pref_screen.dart';
 import 'package:week_3_blabla_project/screens/ride_pref/widgets/ride_pref_input_tile.dart';
+import 'package:week_3_blabla_project/screens/rides/rides_screen.dart';
 import 'package:week_3_blabla_project/theme/theme.dart';
 import 'package:week_3_blabla_project/utils/animations_util.dart';
 import 'package:week_3_blabla_project/utils/date_time_util.dart';
@@ -9,6 +11,7 @@ import 'package:week_3_blabla_project/widgets/inputs/bla_location_picker.dart';
 
 import '../../../model/ride/locations.dart';
 import '../../../model/ride_pref/ride_pref.dart';
+import '../../../utils/animations_util.dart';
 
 ///
 /// A Ride Preference From is a view to select:
@@ -67,12 +70,13 @@ class _RidePrefFormState extends State<RidePrefForm> {
 
   void onDeparturePressed() async {
     //select location
-    Location? selectedLocation =
-        await Navigator.of(context).push<Location>(MaterialPageRoute(
-      builder: (ctx) => BlaLocationPicker(
-        initialLocation: departure,
+    Location? selectedLocation = await Navigator.of(context).push<Location>(
+      AnimationUtils.createBottomToTopRoute(
+        BlaLocationPicker(
+          initialLocation: departure,
+        ),
       ),
-    ));
+    );
 
     // update form
     if (selectedLocation != null) {
@@ -84,12 +88,13 @@ class _RidePrefFormState extends State<RidePrefForm> {
 
   void onArrivalPressed() async {
     //select location
-    Location? selectedLocation =
-        await Navigator.of(context).push<Location>(MaterialPageRoute(
-      builder: (ctx) => BlaLocationPicker(
-        initialLocation: arrival,
+    Location? selectedLocation = await Navigator.of(context).push<Location>(
+      AnimationUtils.createBottomToTopRoute(
+        BlaLocationPicker(
+          initialLocation: arrival,
+        ),
       ),
-    ));
+    );
 
     // update form
     if (selectedLocation != null) {
@@ -102,15 +107,18 @@ class _RidePrefFormState extends State<RidePrefForm> {
   void onSearchPressed() {
     // pop with return data if valid
     if (departure != null && arrival != null) {
-      Navigator.pop(
-        context,
-        RidePref(
-          departure: departure!,
-          arrival: arrival!,
-          departureDate: departureDate,
-          requestedSeats: requestedSeats,
-        ),
+      RidePref newRideRef = RidePref(
+        departure: departure!,
+        arrival: arrival!,
+        departureDate: departureDate,
+        requestedSeats: requestedSeats,
       );
+
+      // // navigate the the ride screen with animation
+      Navigator.of(context)
+          .push(AnimationUtils.createBottomToTopRoute(RidesScreen(
+        initialRidePref: newRideRef,
+      )));
     }
   }
 
