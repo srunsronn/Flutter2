@@ -50,13 +50,13 @@ class _RidePrefFormState extends State<RidePrefForm> {
       requestedSeats = widget.initRidePref!.requestedSeats;
     } else {
       // If no given preferences set default values
-      // departure = null;
-      departure = Location(
-          name: "Paris", country: Country.france); // for testing swapping
+      departure = null;
+      // departure = Location(
+      //     name: "Paris", country: Country.france); // for testing swapping
       departureDate = DateTime.now(); // default
-      // arrival = null;
-      arrival = Location(
-          name: "Lyon", country: Country.france); // for testing swapping
+      arrival = null;
+      // arrival = Location(
+      //     name: "Lyon", country: Country.france); // for testing swapping
       requestedSeats = 1; // default 1 seat
     }
   }
@@ -67,8 +67,12 @@ class _RidePrefFormState extends State<RidePrefForm> {
 
   void onDeparturePressed() async {
     //select location
-    Location? selectedLocation = await Navigator.of(context).push<Location>(
-        MaterialPageRoute(builder: (ctx) => BlaLocationPicker()));
+    Location? selectedLocation =
+        await Navigator.of(context).push<Location>(MaterialPageRoute(
+      builder: (ctx) => BlaLocationPicker(
+        initialLocation: departure,
+      ),
+    ));
 
     // update form
     if (selectedLocation != null) {
@@ -80,8 +84,12 @@ class _RidePrefFormState extends State<RidePrefForm> {
 
   void onArrivalPressed() async {
     //select location
-    Location? selectedLocation = await Navigator.of(context).push<Location>(
-        MaterialPageRoute(builder: (ctx) => BlaLocationPicker()));
+    Location? selectedLocation =
+        await Navigator.of(context).push<Location>(MaterialPageRoute(
+      builder: (ctx) => BlaLocationPicker(
+        initialLocation: arrival,
+      ),
+    ));
 
     // update form
     if (selectedLocation != null) {
@@ -108,13 +116,11 @@ class _RidePrefFormState extends State<RidePrefForm> {
 
   void onSwapPressed() {
     //switch departure and arrival
-    if (departure == null || arrival == null) {
-      setState(() {
-        Location? temp = departure;
-        departure = arrival;
-        arrival = temp;
-      });
-    }
+    setState(() {
+      Location? temp = departure;
+      departure = arrival;
+      arrival = temp;
+    });
   }
 
   // ----------------------------------
